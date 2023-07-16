@@ -1,28 +1,29 @@
 import express from 'express'
 import db from "./config/dbConnect.js"
-import livros from './models/Livro.js';
 
-//Monitorar algum erro na conexão
-db.on("error", console.log.bind(console, 'Erro de conexão'));
 
-db.once("open", () => {
-    console.log('Conexão com o banco feita com sucesso')
-});
+//Monitorar algum err
+//db.on("error", console.log.bind(console, 'Erro de conexão'));
+//db.once()
+
 
 const app = express()
 
 // Colocando o content type e o recebimento dos objetos em JSON
 app.use(express.json());
 
+const livros = [
+    { id: 1, "titulo": "Senhor dos Aneis"},
+    { id: 2, "titulo": "Vingadores"}
+]
+
 app.get('/', (req, res) => {
     res.status(200).send('Curso de Node');
 })
 
 app.get('/livros', (req, res) => {
-    livros.find((err, livros) => {
-        res.status(200).json(livros)
-    });
-});
+    res.status(200).json(livros)
+})
 
 app.get('/livros/:id', (req, res) => {
     let index = searchBook(req.params.id);
