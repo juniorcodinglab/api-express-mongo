@@ -19,31 +19,10 @@ const app = express()
 
 router(app);
 
-
-app.get('/livros', (req, res) => {
-    livros.find((err, livros) => {
-        res.status(200).json(livros)
-    });
-});
-
 app.get('/livros/:id', (req, res) => {
     let index = searchBook(req.params.id);
 
     res.json(livros[index])
-})
-
-app.post('/livros', (req, res) => {
-    // Pegando o Body da aplicação e colocando no array
-    livros.push(req.body); 
-})
-
-app.put('/livros/:id', (req, res) => {
-    let index = searchBook(req.params.id);
-    const { titulo } = req.body;
-
-    livros[index].titulo = titulo;
-
-    res.json(livros);
 })
 
 app.delete('/livros/:id', (req, res) => {
@@ -55,9 +34,5 @@ app.delete('/livros/:id', (req, res) => {
     res.send(`Livro ${id} apagado com sucesso`);
 })
 
-
-function searchBook(id) {
-    return livros.findIndex(livro => livro.id == id);
-}
 
 export default app
