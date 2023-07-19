@@ -1,6 +1,8 @@
 import express from 'express'
 import db from "./config/dbConnect.js"
 import livros from './models/Livro.js';
+import router from './routes/index.js';
+
 
 //Monitorar algum erro na conexão
 db.on("error", console.log.bind(console, 'Erro de conexão'));
@@ -12,11 +14,11 @@ db.once("open", () => {
 const app = express()
 
 // Colocando o content type e o recebimento dos objetos em JSON
-app.use(express.json());
+//app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.status(200).send('Curso de Node');
-})
+
+router(app);
+
 
 app.get('/livros', (req, res) => {
     livros.find((err, livros) => {
