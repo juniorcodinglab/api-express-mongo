@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
+import * as dotenv from 'dotenv'
+dotenv.config()
 
-mongoose.connect("mongodb+srv://juniorcoding:ftH0QCDqxyB7LvE8@cluster0.au9ywkf.mongodb.net/alura-node?retryWrites=true&w=majority")
+const mongoURI = process.env.MONGODB_URI || '';
+
+
+mongoose.connect(mongoURI)
 
 const db = mongoose.connection;
 

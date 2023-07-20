@@ -3,9 +3,12 @@ import livros from "../models/Livro.js";
 class LivroController {
 
     static listarLivros = async (req, res) => {
-        livros.find((err, livros) => {
-            res.status(200).json(livros)
-        });
+        livros.find((err, livros)
+            .populate('autor')
+            .exec((err, livros) => {
+                res.status(200).json(livros)
+            })
+        );
     }
 
     static getLivrosById = async (req, res) => {
