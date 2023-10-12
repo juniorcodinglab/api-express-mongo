@@ -5,6 +5,7 @@ Este projeto é uma base para aprendizado para o desenvolvimento de APIs utiliza
 ## 👨🏻‍💻 Sobre o Projeto
 
 O objetivo deste projeto é fornecer uma estrutura inicial para o desenvolvimento de uma API REST em Javascript. Os seguintes aprendizado com esse projeto foram:
+
 - Operações básicas de uma CRUD.
 - Criação de rotas.
 - Arquitetura MVC.
@@ -34,11 +35,13 @@ Antes de começar, certifique-se de ter o NodeJS v16.17.1 e o MongoDB v4.4.22
 1. Clone este repositório para o seu ambiente local.
 2. Acesse a pasta do projeto em um terminal.
 3. Execute o seguinte comando para instalar as dependências:
+
 ```
 npm install
 ```
 
-4. Execute o seguinte comando para iniciar a aplicação:
+1. Execute o seguinte comando para iniciar a aplicação:
+
 ```
 npm run dev
 ```
@@ -48,10 +51,10 @@ npm run dev
 As configurações do projeto podem ser encontradas no arquivo `.env`. Nele, você poderá definir as credenciais de acesso ao banco de dados e outras variáveis de ambiente relevantes.
 
 Segue a explicação de cada váriavel:
+
 - **SERVER_URL**: URL principal onde será acessada a API
 - **APPLICATION_PORT**: Porta da aplicação - Padrão 3001
 - **MONGODB_URI**: URI contendo a conexão com o seu banco do MongoDB
-
 
 ## 🙏  Contribuição
 
