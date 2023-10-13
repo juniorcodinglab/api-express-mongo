@@ -1,9 +1,8 @@
-import mongoose from "mongoose";
 import autores from "../models/Autor.js";
 
 class AutorController {
 
-  static listarAutores = async (req, res) => {
+  static listarAutores = async (req, res, next) => {
 
     try {
       const resultAuthor = await autores.find();
@@ -14,11 +13,11 @@ class AutorController {
         res.status(404).json("Não há nenhum autor registrado");
       }
     } catch (err) {
-      res.status(500).json({ message: "Erro interno no servidor" });
+      next(err);
     }
   };
 
-  static listarAutorPorId = async (req, res) => {
+  static listarAutorPorId = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -30,16 +29,11 @@ class AutorController {
         res.status(404).send({ message: "Id do Autor não localizado." });
       }
     } catch (err) {
-
-      if(err instanceof mongoose.Error.CastError) {
-        res.status(400).send({ message: "Um ou mais dados fornecidos estão incorretos." });
-      } else {
-        res.status(500).send({ message: "Erro interno no servidor" });
-      }
+      next(err);
     }
   };  
 
-  static cadastrarAutor = async (req, res) => {
+  static cadastrarAutor = async (req, res, next) => {
     try {
       const author = await new autores(req.body);
 
@@ -47,11 +41,11 @@ class AutorController {
 
       res.status(201).send(author.toJSON());
     } catch (err) {
-      res.status(500).send({message: `${err.message} - falha ao cadastrar Autor.`});
+      next(err);
     }
   };
 
-  static atualizarAutor = async (req, res) => {
+  static atualizarAutor = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -59,11 +53,11 @@ class AutorController {
 
       res.status(200).send({message: "Autor atualizado com sucesso"});
     } catch (err) {
-      res.status(500).send({message: err.message});
+      next(err);
     }
   };
 
-  static excluirAutor = async (req, res) => {
+  static excluirAutor = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -71,10 +65,9 @@ class AutorController {
 
       res.status(200).send({message: "Autor removido com sucesso"});
     } catch (err) {
-      res.status(500).send({message: err.message});
+      next(err);
     }
   };
-
 }
 
 export default AutorController;
