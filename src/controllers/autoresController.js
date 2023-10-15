@@ -1,4 +1,5 @@
-import autores from "../models/Autor.js";
+import ErrorNotFound from "../erros/ErrorNotFound.js";
+import { autores } from "../models/index.js";
 
 class AutorController {
 
@@ -26,7 +27,7 @@ class AutorController {
       if(resultAuthor !== null) {
         res.status(200).send(resultAuthor);
       } else {
-        res.status(404).send({ message: "Id do Autor não localizado." });
+        next(new ErrorNotFound("Id do Autor não localizado."));
       }
     } catch (err) {
       next(err);
@@ -35,11 +36,10 @@ class AutorController {
 
   static cadastrarAutor = async (req, res, next) => {
     try {
-      const author = await new autores(req.body);
+      const author = new autores(req.body);
+      const authorResult = await author.save();
 
-      author.save();
-
-      res.status(201).send(author.toJSON());
+      res.status(201).send(authorResult.toJSON());
     } catch (err) {
       next(err);
     }
@@ -49,9 +49,13 @@ class AutorController {
     try {
       const id = req.params.id;
 
-      await autores.findByIdAndUpdate(id, {$set: req.body});
+      const authorResult = await autores.findByIdAndUpdate(id, {$set: req.body});
 
-      res.status(200).send({message: "Autor atualizado com sucesso"});
+      if(authorResult == null) {
+        next(new ErrorNotFound("Id do Autor não localizado."));
+      } else {
+        res.status(200).send({message: "Autor atualizado com sucesso"});
+      }
     } catch (err) {
       next(err);
     }
@@ -61,9 +65,13 @@ class AutorController {
     try {
       const id = req.params.id;
 
-      await autores.findByIdAndDelete(id);
+      const authorResult = await autores.findByIdAndDelete(id);
 
-      res.status(200).send({message: "Autor removido com sucesso"});
+      if(authorResult == null) {
+        next(new ErrorNotFound("Id do Autor não localizado."));
+      } else {
+        res.status(200).send({message: "Autor removido com sucesso"});
+      }
     } catch (err) {
       next(err);
     }
